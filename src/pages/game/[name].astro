@@ -1,0 +1,45 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import data from "../../../public/src/gamelist.json";
+
+export async function getStaticPaths() {
+  return data.game.map(g => ({
+    params: { name: g.name },
+  }));
+}
+
+const { name } = Astro.params;
+const game = data.game.find(g => g.name === name);
+---
+
+<Layout>
+  <div class="bg-[#11111b] p-10">
+    {game ? (
+      <>
+        <h1 class="text-3xl font-bold mb-4">{game.name}</h1>
+        <div class="flex flex-row gap-5 h-[300px] mb-6 overflow-x-auto">
+          <img
+            class="w-auto h-full"
+            src={`/src/covers/${game.name}.png`}
+            alt={game.name}
+          />
+          <img
+              class="w-auto h-full object-cover"
+            src={`/src/screenshots/${game.name}.png`}
+            alt={game.name}
+          >
+        </div>
+        {game.desc && <p class="mb-4">{game.desc}</p>}
+        <ul class="text-sm opacity-80">
+          {game.developer && <li><b>Developer:</b> {game.developer}</li>}
+          {game.publisher && <li><b>Publisher:</b> {game.publisher}</li>}
+          {game.genre && <li><b>Genre:</b> {game.genre}</li>}
+          {game.players && <li><b>Players:</b> {game.players}</li>}
+          {game.releasedate && <li><b>Reales date:</b> {game.releasedate}</li>}
+        </ul>
+      </>
+    ) : (
+      <p>No se encontró el juego.</p>
+    )}
+  </div>
+</Layout>

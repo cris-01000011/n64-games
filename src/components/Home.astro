@@ -1,0 +1,37 @@
+---
+import data from "../../public/src/gamelist.json";
+---
+
+<main class="view w-full h-full grid grid-cols-2 lg:grid-cols-5 place-items-center gap-3 px-10 pt-20 pb-10">
+  {data.game.map(item => (
+    <a
+      href={`/game/${encodeURIComponent(item.name)}`}
+      class="block"
+    >
+      <img
+        class="w-[200px] grayscale-50 hover:grayscale-0 transition-all"
+        src={`/src/covers/${item.name}.png`}
+        alt={item.name}
+      />
+    </a>
+  ))}
+</main>
+
+<style>
+  @keyframes appear {
+    from {
+      opacity: 0;
+      scale: 0.5;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  .block {
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0;
+  }
+</style>
